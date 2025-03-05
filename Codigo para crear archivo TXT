@@ -1,0 +1,14 @@
+#Generar txt-------------------------------------------------------------
+import random
+import string
+
+# Función para generar una línea de 50 caracteres aleatorios
+def generar_linea():
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=50))
+
+# Crear y escribir en un archivo
+with open("archivo.txt", "w") as file: #guardado como "archivo"
+    for _ in range(100):
+        file.write(generar_linea() + "\n")
+
+print("Archivo generado con éxito.")
