@@ -1,0 +1,47 @@
+#Comparar contenido ------------------------------------------------
+def compare_files(original_file, received_file):
+    try:
+        # Leer archivo original
+        with open(original_file, 'rb') as f1:
+            content1 = f1.read()
+            
+        # Leer archivo recibido
+        with open(received_file, 'rb') as f2:
+            content2 = f2.read()
+        
+        # Comparar tamaños
+        size1 = len(content1)
+        size2 = len(content2)
+        
+        print("=== Reporte de comparación ===")
+        print(f"Tamaño archivo original: {size1} bytes")
+        print(f"Tamaño archivo recibido: {size2} bytes")
+        
+        if size1 != size2:
+            print("ERROR: Los archivos tienen diferente tamaño")
+            print(f"Diferencia: {abs(size1 - size2)} bytes")
+            return False
+            
+        # Comparar contenido byte por byte
+        if content1 == content2:
+            print("ÉXITO: Los archivos son idénticos")
+            return True
+        else:
+            print("ERROR: Los archivos tienen diferente contenido")
+            
+            # Encontrar la primera diferencia
+            for i, (b1, b2) in enumerate(zip(content1, content2)):
+                if b1 != b2:
+                    print(f"Primera diferencia en el byte {i}")
+                    print(f"Original: {chr(b1)} ({b1})")
+                    print(f"Recibido: {chr(b2)} ({b2})")
+                    break
+            return False
+            
+    except Exception as e:
+        print("Error al comparar archivos:", str(e))
+        return False
+
+# Uso del comparador
+print("Iniciando comparación...")
+resultado = compare_files('archivo.txt', 'received.txt')
