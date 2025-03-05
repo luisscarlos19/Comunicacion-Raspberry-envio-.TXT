@@ -1,0 +1,23 @@
+#Codigo para envio de archivo TXT para Tx
+from machine import UART, Pin
+import time
+
+# Configurar UART a máxima velocidad con buffer grande
+uart = UART(0,baudrate=921600,tx=Pin(0), rx=None,txbuf=4096)  # Buffer más grande
+
+try:
+    with open('archivo.txt', 'rb') as file:  # Modo binario
+        content = file.read()
+    
+    # Obtener tamaño del archivo
+    size = len(content)
+    
+    # Enviar tamaño primero (4 bytes)
+    uart.write(size.to_bytes(4, 'big'))
+    time.sleep(0.01)
+    
+    # Enviar contenido completo de una vez
+    uart.write(content)
+    print("Archivo enviado exitosamente")
+except:
+    print("Error al enviar")
